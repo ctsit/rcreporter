@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'reportingTool.apps.ReportingtoolConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -77,7 +78,8 @@ WSGI_APPLICATION = 'CTSI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': "/Users/ashish/report.db",
+	#'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 

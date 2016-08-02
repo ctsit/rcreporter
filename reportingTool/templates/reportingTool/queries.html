@@ -1,0 +1,28 @@
+{% extends 'reportingTool/base.html' %}
+{% block title %}
+<title>Queries | Reporting Tool</title>
+{% endblock %}
+
+{% block content %}
+
+	<form action='' method='post' class='post-form sign-up'>
+	    {% csrf_token %}
+		<fieldset>
+		  <legend> Create Query </legend>
+		    {% for field in form %}
+			<div class="form-group">
+				<label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>    			
+		      		<input type="text" class="form-control"
+					name="{{ field.name }}"
+					id="id_{{ field.name }}"
+					value="{{ field.value }}" >         			
+			</div>       			
+		    {% endfor %}
+		    <footer class="center text-center">
+		    	<input type='submit' name='dis' value='Submit' class="btn btn-default"/>
+		    </footer>
+		</fieldset>
+	</form>
+
+
+{% endblock %}

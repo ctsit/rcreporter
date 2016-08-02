@@ -1,0 +1,17 @@
+{% extends 'ToDo/base.html' %}
+
+{% block title %}
+<title>Details| Report Queries </title>
+{% endblock %}
+
+{% block content %}
+	<ul> <h2>{{title}}</h2>
+
+	{% for object in objects %}
+	<li> {{object}}</li>
+	<br>
+	{% endfor %}
+	</ul>
+
+
+{% endblock %}

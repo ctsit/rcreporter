@@ -1,0 +1,20 @@
+{% extends 'ToDo/base.html' %}
+
+{% block content %}
+
+	<form action#' method='post' class='post-form sign-up'>
+	    {% csrf_token %}
+		<fieldset>
+		  <legend> Errors </legend>
+		    {% for key,values in form.items %}
+			<div class="form-group">
+				<label class="control-label" for="id_{{ field }}">{{ key }}</label>
+				{% for v in values.items %}
+			      		<label type="text" class="form-control"	> {{v}} </label>
+				{% endfor %}    			         			
+			</div>       			
+		    {% endfor %}		   
+		</fieldset>
+	</form>
+
+{% endblock %}
