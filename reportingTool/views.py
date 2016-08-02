@@ -13,9 +13,11 @@ def queries_create(request):
 		form = QueriesForm(request.POST)
 		print "Lets see what happens"
 		if form.is_valid():
+			print "Form is valid"
 			form.pub_date = datetime.now().strftime("%m/%d/%Y")
 			form.save()
-			return HttpResponseRedirect('success')
+			print form.pub_date
+			return HttpResponseRedirect('reportingTool/details.html')
 		else:
 			print "It is not valid"
 			return render(request, 'reportingTool/error.html', {'form':form.errors})
