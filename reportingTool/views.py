@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Queries
 from .forms import QueriesForm
@@ -9,21 +9,19 @@ def index(request):
     return HttpResponse("Hello, this is the dashboard for sql queries")
 
 def queries_create(request):
+	instance = get_object_or_404(Queries, id=id)
+	form = QueriesForm(request.POST or None, instance=instance)
 	if request.method=='POST':
-		form = QueriesForm(request.POST)
 		print "Lets see what happens"
 		if form.is_valid():
 			print "Form is valid"
 			form.pub_date = datetime.now().strftime("%m/%d/%Y")
 			form.save()
-			print form.pub_date
 			return HttpResponseRedirect('reportingTool/details.html')
 		else:
 			print "It is not valid"
 			return render(request, 'reportingTool/error.html', {'form':form.errors})
-	else:
-		form = QueriesForm()
-		return render(request, 'reportingTool/queries.html', {'form':form})
+	return render(request, 'reportingTool/queries.html', {'form':form})
 
 def queries(request):
 	details = Queries.objects.all()
