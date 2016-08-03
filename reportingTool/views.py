@@ -35,9 +35,12 @@ def query_update(request, id):
 	return render(request, 'reportingTool/queries.html', {'form':form})
 
 def list_queries(request):
-	details = Queries.objects.all()
+	items = Queries.objects.all()
+	objects = []
+	for item in items:
+		objects.append([str(field.value_to_string(item)) for field in item._meta.fields])
 	context = {
 	'title':'Queries',
-	'objects':details,
+	'objects':objects,
 	}
 	return render(request, 'reportingTool/details.html', context)

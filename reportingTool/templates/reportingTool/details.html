@@ -5,13 +5,26 @@
 {% endblock %}
 
 {% block content %}
-	<ul> <h2>{{title}}</h2>
-
-	{% for object in objects %}
-	<li> {{object}}</li>
-	<br>
-	{% endfor %}
-	</ul>
+	<h2>{{title}}</h2>
+	<table class='table'>
+		<thead>
+			<th class='row'>
+				<td> ID </td>
+				<td> Query </td>
+				<td> SQL Query </td>
+				<td> Date Updated</td>
+			</th>
+		</thead>
+		<tbody>
+			{% for object in objects %}
+			<tr class='row'>
+				{% for value in object %}
+					<td> {{value}}</td>
+				{% endfor %}	
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
 
 {% endblock %}
