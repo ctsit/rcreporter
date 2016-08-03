@@ -8,22 +8,33 @@ from datetime import datetime
 def index(request):
     return HttpResponse("Hello, this is the dashboard for sql queries")
 
-def queries_create(request):
-	instance = get_object_or_404(Queries, id=id)
-	form = QueriesForm(request.POST or None, instance=instance)
+def query_create(request):
+	form = QueriesForm(request.POST or None)
 	if request.method=='POST':
 		print "Lets see what happens"
 		if form.is_valid():
 			print "Form is valid"
 			form.pub_date = datetime.now().strftime("%m/%d/%Y")
 			form.save()
-			return HttpResponseRedirect('reportingTool/details.html')
+			return HttpResponseRedirect('queryDetails')
 		else:
 			print "It is not valid"
 			return render(request, 'reportingTool/error.html', {'form':form.errors})
 	return render(request, 'reportingTool/queries.html', {'form':form})
 
-def queries(request):
+def query_update(request, id):
+	instance = get_object_or_404(Queries, pk=id)
+	form = QueriesForm(request.POST or None, instance=instance)
+	if request.method=='POST':
+		if form.is_valid():
+			form.pub_date = datetime.now().strftime("%m/%d/%Y")
+			form.save()
+			return HttpResponseRedirect('queryDetails')
+		else:
+			return render(request, 'reportingTool/error.html', {'form':form.errors})
+	return render(request, 'reportingTool/queries.html', {'form':form})
+
+def list_queries(request):
 	details = Queries.objects.all()
 	context = {
 	'title':'Queries',
