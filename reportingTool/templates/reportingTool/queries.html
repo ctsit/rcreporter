@@ -10,13 +10,13 @@
 		<fieldset>
 		  <legend> Create Query </legend>
 		    {% for field in form %}
-			<div class="form-group">
-				<label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>    			
-		      		<input type="text" class="form-control"
-					name="{{ field.name }}"
+				<div class="form-group">
+					<label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>    			
+		      		<textarea class="form-control"
 					id="id_{{ field.name }}"
-					value="{{ field.value }}" >         			
-			</div>       			
+					value="{{ field.value }}"
+					rows="5" > </textarea>        			
+				</div>       			
 		    {% endfor %}
 		    <footer class="center text-center">
 		    	<input type='submit' name='dis' value='Submit' class="btn btn-default"/>

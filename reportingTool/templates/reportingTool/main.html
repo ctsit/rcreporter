@@ -1,0 +1,38 @@
+{% extends 'reportingTool/base.html' %}
+{% block title %}
+<title>DashBoard | Reporting Tool</title>
+{% endblock %}
+
+{% block content %}
+<script type="text/javascript">
+		function run(){
+			document.getElementById('srt').value = document.getElementById('query-id').value;
+		}
+	</script>
+
+	<form action='' method='post' class='post-form'>
+	    {% csrf_token %}
+		<fieldset>
+			<span>Select a query from the Drop Down</span>
+			</br>
+		  	<select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
+		  		{% for txt,sql in objects %}
+		  			<option value="{{txt}}">
+		  				{{sql}} 
+		  			</option>
+		  		{% endfor %}
+		  	</select>
+
+		  	<div class='row'>
+			  	<div class='col-sm-4'>asdasd</div>
+			  	<div class='col-sm-4'>asdasd</div>
+			  	<div class='col-sm-4'>x cxzcsd</div>
+		  	</div>
+		  	
+			<input type="text" id="srt" placeholder="get value on option select"><br>
+		</fieldset>
+	</form>
+	<label id='ans'></span>
+	
+
+{% endblock %}
