@@ -5,17 +5,14 @@
 
 {% block content %}
 
-	<form action='' method='post' class='post-form sign-up'>
+	<form action='' method='post' class='post-form sign-up' name="QueryForm">
 	    {% csrf_token %}
 		<fieldset>
 		  <legend> Create Query </legend>
 		    {% for field in form %}
 				<div class="form-group">
-					<label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>    			
-		      		<textarea class="form-control"
-					id="id_{{ field.name }}"
-					value="{{ field.value }}"
-					rows="5" > </textarea>        			
+					<label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label></br>
+					{{field}}    			
 				</div>       			
 		    {% endfor %}
 		    <footer class="center text-center">

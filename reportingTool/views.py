@@ -7,12 +7,14 @@ from datetime import datetime
 # Create your views here.
 def index(request):
     items = Queries.objects.all()
+
     objects = []
-    fields = items[0]._meta
-    for item in items:
-        query_Text = str(fields.get_field('query_text').value_to_string(item))
-        query_Sql = str(fields.get_field('query_sql').value_to_string(item))
-        objects.append((query_Text, query_Sql))
+    if len(items)>0:
+        fields = items[0]._meta
+        for item in items:
+            query_Text = str(fields.get_field('query_text').value_to_string(item))
+            query_Sql = str(fields.get_field('query_sql').value_to_string(item))
+            objects.append((query_Text, query_Sql))
     
     context = {
     'title': 'Dashboard',
@@ -23,7 +25,6 @@ def index(request):
 def query_create(request):
     form = QueriesForm(request.POST or None)
     if request.method=='POST':
-        print "Lets see what happens"
         if form.is_valid():
             print "Form is valid"
             form.pub_date = datetime.now().strftime("%m/%d/%Y")
