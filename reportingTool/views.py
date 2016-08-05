@@ -1,24 +1,48 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Queries
+from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
 from .forms import QueriesForm
 from datetime import datetime
+
+def getItemsList(items, dropDown=False):
+    objects = []
+    if dropDown:
+        if len(items)>0:
+            fields = items[0]._meta
+            for item in items:
+                query_Text = str(fields.get_field('query_text').value_to_string(item))
+                query_Sql = str(fields.get_field('query_sql').value_to_string(item))
+                objects.append((query_Text, query_Sql))
+    else:
+        for item in items:
+            objects.append([str(field.value_to_string(item)) for field in item._meta.fields])
+    return objects
 
 # Create your views here.
 def index(request):
     items = Queries.objects.all()
+    queryObjects = getItemsList(items, True)
 
-    objects = []
-    if len(items)>0:
-        fields = items[0]._meta
-        for item in items:
-            query_Text = str(fields.get_field('query_text').value_to_string(item))
-            query_Sql = str(fields.get_field('query_sql').value_to_string(item))
-            objects.append((query_Text, query_Sql))
+    items = Projects.objects.all()
+    projectObjects = getItemsList(items)
+
+    items = Sites.objects.all()
+    siteObjects = getItemsList(items)
+    print siteObjects
+
+    items = Proj_Exec_TimeStmp.objects.all()
+    execTmObjects = getItemsList(items)
+
+    items = Site_Reports.objects.all()
+    siteReportObjects = getItemsList(items)
     
     context = {
     'title': 'Dashboard',
-    'objects': objects,
+    'queryObjects': queryObjects,
+    'projectObjects': projectObjects,
+    'siteObjects': siteObjects,
+    'execTmObjects': execTmObjects,
+    'siteReportObjects': siteReportObjects 
     }
     return render(request, 'reportingTool/main.html', context)
 
@@ -49,9 +73,7 @@ def query_update(request, id):
 
 def list_queries(request):
     items = Queries.objects.all()
-    objects = []
-    for item in items:
-        objects.append([str(field.value_to_string(item)) for field in item._meta.fields])
+    objects = getItemsList(items)
     context = {
     'title':'Queries',
     'objects':objects,

@@ -16,7 +16,7 @@
 			<span>Select a query from the Drop Down</span>
 			</br>
 		  	<select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
-		  		{% for txt,sql in objects %}
+		  		{% for txt,sql in queryObjects %}
 		  			<option value="{{txt}}">
 		  				{{sql}} 
 		  			</option>
@@ -24,12 +24,116 @@
 		  	</select>
 
 		  	<div class='row'>
-			  	<div class='col-sm-4'>asdasd</div>
-			  	<div class='col-sm-4'>asdasd</div>
-			  	<div class='col-sm-4'>x cxzcsd</div>
+			  	<div class='col-sm-4'></div>
+			  	<div class='col-sm-4'></div>
+			  	<div class='col-sm-4'></div>
 		  	</div>
 		  	
 			<input type="text" id="srt" placeholder="get value on option select"><br>
+			</br>
+			</br>
+			</br>
+			<div class='container'>
+				<ul class='nav nav-pills nav-justified'>
+					<li class='active'>
+						<a data-toggle='tab' href='#project'>Projects</a>
+					</li>
+					<li>
+						<a data-toggle='tab' href='#site'>Sites</a>
+					</li>
+					<li>
+						<a data-toggle='tab' href='#projExecTmStmp'>Project Execution Timestamp</a>
+					</li>
+					<li>
+						<a data-toggle='tab' href='#siteReports'>Site Reports</a>
+					</li>
+				</ul>
+				<br>
+				<div class='tab-content'>
+					<div id='project' class='tab-pane fade in active'>
+						<table class='table'>
+							<thead>
+								<th class='row'>
+									<td> Project ID </td>
+									<td> Project Name </td>
+								</th>
+							</thead>
+							<tbody>
+								{% for object in projectObjects %}
+								<tr class='row'>
+									{% for value in object %}
+										<td> {{value}}</td>
+									{% endfor %}	
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div id='site' class='tab-pane fade'>
+						<table class='table table-fixed'>
+							<thead>
+								<th class='row'>
+									<td> Site ID </td>
+									<td> Site Name </td>
+									<td> Project ID </td>
+								</th>
+							</thead>
+							<tbody>
+								{% for object in siteObjects %}
+								<tr class='row'>
+									{% for value in object %}
+										<td> {{value}}</td>
+									{% endfor %}	
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div id='projExecTmStmp' class='tab-pane fade'>
+						<table class='table'>
+							<thead>
+								<th class='row'>
+									<td> TimeStamp ID </td>
+									<td> Start Timestamp </td>
+									<td> End Timestamp </td>
+									<td> Project ID </td>
+								</th>
+							</thead>
+							<tbody>
+								{% for object in execTmObjects %}
+								<tr class='row'>
+									{% for value in object %}
+										<td> {{value}}</td>
+									{% endfor %}	
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+					<div id='siteReports' class='tab-pane fade'>
+						<table class='table'>
+							<thead>
+								<th class='row'>
+									<td> Report ID </td>
+									<td> Patient Count </td>
+									<td> Execution ID </td>
+									<td> Site ID </td>
+								</th>
+							</thead>
+							<tbody>
+								{% for object in siteReportObjects %}
+								<tr class='row'>
+									{% for value in object %}
+										<td> {{value}}</td>
+									{% endfor %}	
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
 		</fieldset>
 	</form>
 	<label id='ans'></span>
