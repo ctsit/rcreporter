@@ -3,6 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
 from .forms import QueriesForm
 from datetime import datetime
+from django_tables2 import RequestConfig
+from .tables import QueriesTable
 
 def getItemsList(items, dropDown=False):
     objects = []
@@ -79,3 +81,8 @@ def list_queries(request):
     'objects':objects,
     }
     return render(request, 'reportingTool/details.html', context)
+
+def people(request):
+    query = QueriesTable(Queries.objects.all())
+    RequestConfig(request).configure(query)
+    return render(request, 'reportingTool/people.html', {'query':query})

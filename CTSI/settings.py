@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_tables2',
     'reportingTool.apps.ReportingtoolConfig',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -64,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.core.context_processors.request'
             ],
         },
     },
@@ -78,7 +80,7 @@ WSGI_APPLICATION = 'CTSI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': "/Users/ashish/report.db",
+        'NAME': "/home/Ash/report.db",
 	#'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
