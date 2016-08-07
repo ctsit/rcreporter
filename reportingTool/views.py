@@ -84,5 +84,6 @@ def list_queries(request):
 
 def people(request):
     query = QueriesTable(Queries.objects.all())
+    #query.paginate(page=request.GET.get('page', 1), per_page=1)
     RequestConfig(request).configure(query)
     return render(request, 'reportingTool/people.html', {'query':query})

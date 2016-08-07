@@ -53,9 +53,9 @@ class Site_Reports(models.Model):
 		return self.reportID
 
 class Queries(models.Model):
-    query_text = models.CharField(max_length=1000)
-    query_sql = models.CharField(max_length=1000)
-    pub_date = models.DateField('date published', default=date.today)
+    query_text = models.CharField(verbose_name='Query Text', max_length=1000)
+    query_sql = models.CharField(verbose_name='Query SQL', max_length=1000)
+    pub_date = models.DateField(verbose_name='Published Date', default=date.today)
 
     class Meta:
     	db_table = "QUERIES"
