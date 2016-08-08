@@ -38,7 +38,7 @@ class Proj_Exec_TimeStmp(models.Model):
 		db_table = "PROJ_EXEC_TIMESTMP"
 
 	def __unicode__(self):
-		return self.timeStmpID
+		return str(self.timeStmpID)
 
 class Site_Reports(models.Model):
 	reportID = models.AutoField(primary_key=True)
@@ -50,7 +50,7 @@ class Site_Reports(models.Model):
 		db_table = "SITE_REPORTS"
 
 	def __unicode__(self):
-		return self.reportID
+		return str(self.reportID)
 
 class Queries(models.Model):
     query_text = models.CharField(verbose_name='Query Text', max_length=1000)
