@@ -80,7 +80,7 @@ WSGI_APPLICATION = 'CTSI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': "/home/Ash/report.db",
+        'NAME': "/Users/ashish/report.db",
 	#'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
