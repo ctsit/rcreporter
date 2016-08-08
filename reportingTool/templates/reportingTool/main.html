@@ -5,156 +5,120 @@
 
 {% block content %}
 
-	<style type="text/css">
-		table.scroll {
-		    border-spacing: 0;
-		}
+{% load render_table from django_tables2 %}
 
-		table.scroll tbody,
-		table.scroll thead { display: block; }
+<link rel="stylesheet" href="{{ STATIC_URL }}django_tables2/bootstrap.css" />
 
-		
+<style type="text/css">
+    table.scroll {
+        border-spacing: 0;
+    }
 
-		table.scroll tbody {
-		    height: 600px;
-		}
+    table.scroll tbody,
+    table.scroll thead { display: block; }
 
-		tbody { border-top: 2px solid black; }
-	</style>
-	
-	<script type="text/javascript">
-		function run(){
-			document.getElementById('srt').value = document.getElementById('query-id').value;
-		}
-	</script>
 
-	<form action='' method='post' class='post-form'>
-	    {% csrf_token %}
-		<fieldset>
-			<span>Select a query from the Drop Down</span>
-			</br>
-		  	<select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
-		  		{% for txt,sql in queryObjects %}
-		  			<option value="{{txt}}">
-		  				{{sql}} 
-		  			</option>
-		  		{% endfor %}
-		  	</select>
 
-		  	<div class='row'>
-			  	<div class='col-sm-4'></div>
-			  	<div class='col-sm-4'></div>
-			  	<div class='col-sm-4'></div>
-		  	</div>
-		  	
-			<input type="text" id="srt" placeholder="get value on option select"><br>
-			</br>
-			</br>
-			</br>
-			<div class='container'>
-				<ul class='nav nav-pills nav-justified'>
-					<li class='active'>
-						<a data-toggle='tab' href='#project'>Projects</a>
-					</li>
-					<li>
-						<a data-toggle='tab' href='#site'>Sites</a>
-					</li>
-					<li>
-						<a data-toggle='tab' href='#projExecTmStmp'>Project Execution Timestamp</a>
-					</li>
-					<li>
-						<a data-toggle='tab' href='#siteReports'>Site Reports</a>
-					</li>
-				</ul>
-				<br>
-				<div class='tab-content'>
-					<div id='project' class='tab-pane fade in active'>
-						<table class='table table-striped'>
-							<thead>
-								<th class='row'>
-									<td> Project ID </td>
-									<td> Project Name </td>
-								</th>
-							</thead>
-							<tbody>
-								{% for object in projectObjects %}
-								<tr class='row'>
-									{% for value in object %}
-										<td> {{value}}</td>
-									{% endfor %}	
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-					<div id='site' class='tab-pane fade'>
-						<table class='table table-striped scroll'>
-							<thead>
-								<th class='row'>
-									<td> Site ID </td>
-									<td> Site Name </td>
-									<td> Project ID </td>
-								</th>
-							</thead>
-							<tbody>
-								{% for object in siteObjects %}
-								<tr class='row'>
-									{% for value in object %}
-										<td> {{value}}</td>
-									{% endfor %}	
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-					<div id='projExecTmStmp' class='tab-pane fade'>
-						<table class='table table-striped'>
-							<thead>
-								<th class='row'>
-									<td> TimeStamp ID </td>
-									<td> Start Timestamp </td>
-									<td> End Timestamp </td>
-									<td> Project ID </td>
-								</th>
-							</thead>
-							<tbody>
-								{% for object in execTmObjects %}
-								<tr class='row'>
-									{% for value in object %}
-										<td> {{value}}</td>
-									{% endfor %}	
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-					<div id='siteReports' class='tab-pane fade'>
-						<table class='table table-striped'>
-							<thead>
-								<th class='row'>
-									<td> Report ID </td>
-									<td> Patient Count </td>
-									<td> Execution ID </td>
-									<td> Site ID </td>
-								</th>
-							</thead>
-							<tbody>
-								{% for object in siteReportObjects %}
-								<tr class='row'>
-									{% for value in object %}
-										<td> {{value}}</td>
-									{% endfor %}	
-								</tr>
-								{% endfor %}
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
+    table.scroll tbody {
+        height: 600px;
+    }
 
-		</fieldset>
-	</form>
-	<label id='ans'></span>
-	
+    tbody { border-top: 2px solid black; }
+</style>
+
+<script type="text/javascript">
+    function run(){
+        document.getElementById('srt').value = document.getElementById('query-id').value;
+    }
+</script>
+
+<form action='' method='post' class='post-form'>
+    {% csrf_token %}
+    <fieldset>
+        <span>Select a query from the Drop Down</span>
+    </br>
+    <select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
+        {% for txt,sql in queryObjects %}
+        <option value="{{txt}}">
+            {{sql}} 
+        </option>
+        {% endfor %}
+    </select>
+
+    <div class='row'>
+        <div class='col-sm-4'></div>
+        <div class='col-sm-4'></div>
+        <div class='col-sm-4'></div>
+    </div>
+
+    <input type="text" id="srt" placeholder="get value on option select"><br>
+    </br>
+    </br>
+    </br>
+
+
+    </fieldset>
+</form>
+
+
+<div class='container'>
+    <ul class='nav nav-pills nav-justified'>
+        <li class='active'>
+            <a data-toggle='tab' href='#project'>Projects</a>
+        </li>
+        <li>
+            <a data-toggle='tab' href='#site'>Sites</a>
+        </li>
+        <li>
+            <a data-toggle='tab' href='#projExecTmStmp'>Project Execution Timestamp</a>
+        </li>
+        <li>
+            <a data-toggle='tab' href='#siteReports'>Site Reports</a>
+        </li>
+    </ul>
+    <br>
+    <div class='tab-content'>
+        <div id='project' class='tab-pane fade in active'>
+            <frameset>
+                <frame src='http://127.0.0.1:8000/'>
+            </frameset>
+            <div class='row'>
+            <div class='col'>
+                {% render_table projects "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+            </div>
+        </div>
+        </div>
+        <div id='site' class='tab-pane fade'>
+            <frameset>
+                <frame src='report/people' />
+            </frameset>
+            <div class='row'>
+            <div class='col'>
+                {% render_table sites "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+            </div>
+        </div>
+        </div>
+        <div id='projExecTmStmp' class='tab-pane fade'>
+            <frameset>
+                <frame src='/people' />
+            </frameset>
+            <div class='row'>
+            <div class='col'>
+                {% render_table projExecs "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+            </div>
+        </div>
+        </div>
+        <div id='siteReports' class='tab-pane fade'>
+            <frameset>
+                <frame src='/people' />
+            </frameset>
+            <div class='row'>
+            <div class='col'>
+                {% render_table siteReports "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

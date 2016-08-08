@@ -8,8 +8,8 @@ from datetime import date
 # Create your models here.
 
 class Projects(models.Model):
-	projectID = models.AutoField(primary_key=True)
-	projectName = models.CharField(max_length=1000)
+	projectID = models.AutoField(primary_key=True, verbose_name='Project ID')
+	projectName = models.CharField(max_length=1000, verbose_name='Project Name')
 
 	class Meta:
 		db_table = "PROJECTS"
@@ -18,9 +18,9 @@ class Projects(models.Model):
 		return self.projectName
 
 class Sites(models.Model):
-	siteID = models.AutoField(primary_key=True)
-	siteName = models.CharField(max_length=1000)
-	project_ID = models.ForeignKey(Projects, db_column='project_ID')
+	siteID = models.AutoField(primary_key=True, verbose_name='Site ID')
+	siteName = models.CharField(max_length=1000, verbose_name='Site Name')
+	project_ID = models.ForeignKey(Projects, db_column='project_ID', verbose_name='Project')
 
 	class Meta:
 		db_table = "SITES"
@@ -29,10 +29,10 @@ class Sites(models.Model):
 		return self.siteName
 
 class Proj_Exec_TimeStmp(models.Model):
-	timeStmpID = models.AutoField(primary_key=True)
-	startTimeStmp = models.DateTimeField()
-	endTimeStmp = models.DateTimeField()
-	project_ID = models.ForeignKey(Projects, db_column='project_ID')
+	timeStmpID = models.AutoField(primary_key=True, verbose_name='TimeStamp ID')
+	startTimeStmp = models.DateTimeField(verbose_name='Start TimeStamp')
+	endTimeStmp = models.DateTimeField(verbose_name='End TimeStamp')
+	project_ID = models.ForeignKey(Projects, db_column='project_ID', verbose_name='Project')
 
 	class Meta:
 		db_table = "PROJ_EXEC_TIMESTMP"
@@ -41,10 +41,10 @@ class Proj_Exec_TimeStmp(models.Model):
 		return str(self.timeStmpID)
 
 class Site_Reports(models.Model):
-	reportID = models.AutoField(primary_key=True)
-	patientCount = models.IntegerField()
-	exec_ID = models.ForeignKey(Proj_Exec_TimeStmp, db_column='exec_ID')
-	site_ID = models.ForeignKey(Sites, db_column='site_ID')
+	reportID = models.AutoField(primary_key=True, verbose_name='Report ID')
+	patientCount = models.IntegerField(verbose_name='Patient Count')
+	exec_ID = models.ForeignKey(Proj_Exec_TimeStmp, db_column='exec_ID', verbose_name='TimeStamp ID')
+	site_ID = models.ForeignKey(Sites, db_column='site_ID', verbose_name='Site Name')
 
 	class Meta:
 		db_table = "SITE_REPORTS"

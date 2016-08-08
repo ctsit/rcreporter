@@ -4,7 +4,7 @@ from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
 from .forms import QueriesForm
 from datetime import datetime
 from django_tables2 import RequestConfig
-from .tables import QueriesTable
+from .tables import ProjectsTable, SitesTable, ProjExecTable, SiteReportsTable,QueriesTable
 
 def getItemsList(items, dropDown=False):
     objects = []
@@ -25,26 +25,29 @@ def index(request):
     items = Queries.objects.all()
     queryObjects = getItemsList(items, True)
 
-    items = Projects.objects.all()
-    projectObjects = getItemsList(items)
+    projects = ProjectsTable(Projects.objects.all())
+    #projects.paginate(page=request.GET.get('page', 1), per_page=25)
+    RequestConfig(request, paginate={'per_page':25}).configure(projects)
 
-    items = Sites.objects.all()
-    siteObjects = getItemsList(items)
-    print siteObjects
+    sites = SitesTable(Sites.objects.all())
+    #sites.paginate(page=request.GET.get('page', 1), per_page=25)
+    RequestConfig(request, paginate={'per_page':25}).configure(sites)
 
-    items = Proj_Exec_TimeStmp.objects.all()
-    execTmObjects = getItemsList(items)
+    projExecs = ProjExecTable(Proj_Exec_TimeStmp.objects.all())
+    #projExecs.paginate(page=request.GET.get('page', 1), per_page=25)
+    RequestConfig(request, paginate={'per_page':25}).configure(projExecs)
 
-    items = Site_Reports.objects.all()
-    siteReportObjects = getItemsList(items)
-    
+    siteReports = SiteReportsTable(Site_Reports.objects.all())
+    #siteReports.paginate(page=request.GET.get('page', 1), per_page=25)
+    RequestConfig(request, paginate={'per_page':25}).configure(siteReports)
+
     context = {
     'title': 'Dashboard',
     'queryObjects': queryObjects,
-    'projectObjects': projectObjects,
-    'siteObjects': siteObjects,
-    'execTmObjects': execTmObjects,
-    'siteReportObjects': siteReportObjects 
+    'projects': projects,
+    'sites': sites,
+    'projExecs': projExecs,
+    'siteReports': siteReports 
     }
     return render(request, 'reportingTool/main.html', context)
 
@@ -84,8 +87,8 @@ def list_queries(request):
 
 def people(request):
     query = QueriesTable(Queries.objects.all())
-    #query.paginate(page=request.GET.get('page', 1), per_page=1)
-    RequestConfig(request).configure(query)
+    #query.paginate(page=request.GET.get('page', 1), per_page=5)
+    RequestConfig(request, paginate={'per_page':5}).configure(query)
     return render(request, 'reportingTool/people.html', {'query':query})
 
 
