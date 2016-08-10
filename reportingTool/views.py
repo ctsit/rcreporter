@@ -22,6 +22,7 @@ def getItemsList(items, dropDown=False):
 
 # Create your views here.
 def index(request):
+    print "*************"+str(request.get_full_path)
     items = Queries.objects.all()
     queryObjects = getItemsList(items, True)
 
@@ -89,7 +90,7 @@ def people(request):
     query = QueriesTable(Queries.objects.all())
     #query.paginate(page=request.GET.get('page', 1), per_page=5)
     RequestConfig(request, paginate={'per_page':5}).configure(query)
-    return render(request, 'reportingTool/people.html', {'query':query})
+    return render(request, 'reportingTool/people.html', {'query':query, 'request':request})
 
 
 def charts(request):

@@ -32,35 +32,6 @@
     }
 </script>
 
-<form action='' method='post' class='post-form'>
-    {% csrf_token %}
-    <fieldset>
-        <span>Select a query from the Drop Down</span>
-    </br>
-    <select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
-        {% for txt,sql in queryObjects %}
-        <option value="{{txt}}">
-            {{sql}} 
-        </option>
-        {% endfor %}
-    </select>
-
-    <div class='row'>
-        <div class='col-sm-4'></div>
-        <div class='col-sm-4'></div>
-        <div class='col-sm-4'></div>
-    </div>
-
-    <input type="text" id="srt" placeholder="get value on option select"><br>
-    </br>
-    </br>
-    </br>
-
-
-    </fieldset>
-</form>
-
-
 <div class='container'>
     <ul class='nav nav-pills nav-justified'>
         <li class='active'>
@@ -75,47 +46,69 @@
         <li>
             <a data-toggle='tab' href='#siteReports'>Site Reports</a>
         </li>
+        <li>
+            <a data-toggle='tab' href='#miscellaneous'>Miscellaneous</a>
+        </li>
     </ul>
     <br>
     <div class='tab-content'>
         <div id='project' class='tab-pane fade in active'>
-            <frameset>
-                <frame src='http://127.0.0.1:8000/'>
-            </frameset>
             <div class='row'>
             <div class='col'>
-                {% render_table projects "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+                {% render_table projects "/home/Ash/gitRepos/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
             </div>
         </div>
         </div>
         <div id='site' class='tab-pane fade'>
-            <frameset>
-                <frame src='report/people' />
-            </frameset>
             <div class='row'>
             <div class='col'>
-                {% render_table sites "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+                {% render_table sites "/home/Ash/gitRepos/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
             </div>
         </div>
         </div>
         <div id='projExecTmStmp' class='tab-pane fade'>
-            <frameset>
-                <frame src='/people' />
-            </frameset>
             <div class='row'>
             <div class='col'>
-                {% render_table projExecs "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+                {% render_table projExecs "/home/Ash/gitRepos/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
             </div>
         </div>
         </div>
-        <div id='siteReports' class='tab-pane fade'>
-            <frameset>
-                <frame src='/people' />
-            </frameset>
+        <div id='siteReports' class='tab-pane fade'>            
             <div class='row'>
             <div class='col'>
-                {% render_table siteReports "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+                {% render_table siteReports "/home/Ash/gitRepos/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
             </div>
+        </div>
+        </div>
+        <div id='miscellaneous' class='tab-pane fade'>            
+            <div class='row'>
+                <div class='col'>
+                   <form action='' method='post' class='post-form'>
+                        {% csrf_token %}
+                        <fieldset>
+                            <span>Select a query from the Drop Down</span>
+                        </br>
+                        <select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
+                            {% for txt,sql in queryObjects %}
+                            <option value="{{txt}}">
+                                {{sql}} 
+                            </option>
+                            {% endfor %}
+                        </select>
+
+                        <div class='row'>
+                            <div class='col-sm-4'></div>
+                            <div class='col-sm-4'></div>
+                            <div class='col-sm-4'></div>
+                        </div>
+
+                        <input type="text" id="srt" placeholder="get value on option select"><br>
+                        </br>
+                        </br>
+                        </br>
+                        </fieldset>
+                    </form>
+                </div>
         </div>
         </div>
     </div>
