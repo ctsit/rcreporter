@@ -13,9 +13,9 @@ urlpatterns = [
     url(r'(?P<poll_id>\d+)/canvas.png$', views.canvas),
     url(r'test/', views.test, name='test'),
     url(r'filter', views.QueryFilterSingleTableView.as_view()),
-    url(r'project', views.project, name='project'),
-    url(r'site/', views.site, name='site'),
-    url(r'projExec', views.projExec, name='projExec'),
-    url(r'siteReport', views.siteReport, name='siteReport')
+    url(r'project/', views.ProjectFilterSingleTableView.as_view(), name='project'),
+    url(r'site/', views.SiteFilterSingleTableView.as_view(), name='site'),
+    url(r'projExec/', views.ProjExecFilterSingleTableView.as_view(), name='projExec'),
+    url(r'siteReport/', views.SiteReportFilterSingleTableView.as_view(), name='siteReport')
 
 ]

@@ -1,14 +1,18 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
 from .forms import QueriesForm, dates
 from datetime import datetime
 from django_tables2 import RequestConfig, SingleTableView
-from .filters import QueryFilter
+from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
+from .filters import ProjectsFilter, SitesFilter, ProjExecFilter, SiteReportsFilter, QueryFilter
 from .tables import ProjectsTable, SitesTable, ProjExecTable, SiteReportsTable,QueriesTable
 
 class FilteredSingleTableView(SingleTableView):
     filter_class = None
+    template_name = 'reportingTool/list.html'
+    table_pagination = {
+        'per_page': 25
+    }
 
     def get_table_data(self):
         data = super(FilteredSingleTableView, self).get_table_data()
@@ -19,6 +23,26 @@ class FilteredSingleTableView(SingleTableView):
         context = super(FilteredSingleTableView, self).get_context_data(**kwargs)
         context['filter'] = self.filter
         return context
+
+class ProjectFilterSingleTableView(FilteredSingleTableView):
+    model = Projects
+    table_class = ProjectsTable
+    filter_class = ProjectsFilter
+
+class SiteFilterSingleTableView(FilteredSingleTableView):
+    model = Sites
+    table_class = SitesTable
+    filter_class = SitesFilter
+
+class ProjExecFilterSingleTableView(FilteredSingleTableView):
+    model = Proj_Exec_TimeStmp
+    table_class = ProjExecTable
+    filter_class = ProjExecFilter
+
+class SiteReportFilterSingleTableView(FilteredSingleTableView):
+    model = Site_Reports
+    table_class = SiteReportsTable
+    filter_class = SiteReportsFilter
 
 class QueryFilterSingleTableView(FilteredSingleTableView):
     model = Queries
