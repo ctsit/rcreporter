@@ -1,6 +1,7 @@
 {% load querystring from django_tables2 %}
 {% load i18n %}
 {% load blocktrans trans from i18n %}
+{% load bootstrap_toolkit %}
 
 <div class="table-container">
     {% block table %}
@@ -74,7 +75,6 @@
             </li>
             {% endif %}
         </ul>
-
         {% endblock pagination %}
     {% endif %}
 </div>

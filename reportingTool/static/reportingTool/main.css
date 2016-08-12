@@ -1,0 +1,21 @@
+
+    table.scroll {
+        border-spacing: 0;
+    }
+
+    table.scroll tbody,
+    table.scroll thead { display: block; }
+
+
+
+    table.scroll tbody {
+        height: 600px;
+    }
+
+    tbody { border-top: 2px solid black; }
+
+    iframe {
+    	border:none;
+    	width:1200px;
+    	height:1140px;
+    }

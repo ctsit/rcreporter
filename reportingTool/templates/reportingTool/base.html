@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <html>
 <head>        
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
@@ -7,31 +7,7 @@
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 	<link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-	<style>
-		body{
-			min-height:100%;
-			clear: both; 
-			position:relative;
-		}
-		.main-content{
-			padding-bottom:60px;
-		}
-		.master-footer{
-			background-color: #555;
-			color:white;
-			padding: 15px;
-			clear: both;
-			position: absolute;
-			height:60px;
-			right: 0;
-			bottom: 0;
-			left: 0;
-		}
-		.sign-up{
-			width:400px;
-			margin:auto;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="{% static 'reportingTool/base.css' %}">
 	{{form.media}}
 	{% block title %} <title> ToDo Project </title> {% endblock title %}
 </head>
