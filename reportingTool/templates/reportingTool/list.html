@@ -1,5 +1,5 @@
 
-{% load static %}
+{% load static from staticfiles %}
 
 <link rel='stylesheet' type='text/css'  href="{% static 'reportingTool/main.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'reportingTool/base.css' %}">
@@ -13,24 +13,31 @@
 		}
 	</style>
 
-	<form method='GET'>
-	
-		{% for j in filter.form %}
-			{{j.label}}
-			{{j}}
-		{% endfor %}
-
-	    <input type='submit' value='Filter' />
-	    |
-	    Displaying {{ filter.qs.count }} of {{ filter.queryset.count }} items.
-	    |
+	<form method='GET' >	
+			{% for field in filter.form %}
+				<div class="row" style="margin:0;">
+					<div class='col'>
+						<label class="control-label" for="id_{{ field.name }}">{{ field.label }}</label>
+					</div>
+					<div class='col'>
+						{{field}}    			
+					</div>
+				</div>
+			{% endfor %}
+		<br/>
+	    <input type='submit' class='btn btn-default' value='Filter' />
+	    <br/><br/>
+	    <p class='text-muted'>Displaying {{ filter.qs.count }} of {{ filter.queryset.count }} items. </p>
+	    
 	    <a href='{{ request.path }}' >Clear</a>
 	</form>
 
 	{% if table %}
 		<div class='row'>
 		    <div class='col'>
-		    	{% render_table table "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+		    	
+		    	{% render_table table 'reportingTool/bootstrap.html' %}
+		    	
 		 	</div>
 		</div>
 	{% endif %}

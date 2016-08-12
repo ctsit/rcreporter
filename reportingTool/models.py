@@ -38,7 +38,7 @@ class Proj_Exec_TimeStmp(models.Model):
 		db_table = "PROJ_EXEC_TIMESTMP"
 
 	def __unicode__(self):
-		return str(self.timeStmpID)
+		return str(self.startTimeStmp.strftime("%m/%d/%Y %I:%M %a")) + ' - ' + str(self.endTimeStmp.strftime("%Y-%m-%d %I:%M %p"))
 
 class Site_Reports(models.Model):
 	reportID = models.AutoField(primary_key=True, verbose_name='Report ID')

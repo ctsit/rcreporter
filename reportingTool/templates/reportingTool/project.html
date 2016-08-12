@@ -14,6 +14,6 @@
 {% load render_table from django_tables2 %}
 <div class='row'>
     <div class='col'>
-         {% render_table projects "/Users/ashish/Documents/rcreporter/reportingTool/templates/reportingTool/bootstrap.html" %}
+         {% render_table projects "{{STATIC_URL}}reportingTool/bootstrap.html" %}
     </div>
 </div>
