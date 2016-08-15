@@ -3,6 +3,7 @@ from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports ,Queries
 from bootstrap_toolkit.widgets import BootstrapDateInput
 
 class ProjectsFilter(django_filters.FilterSet):
+	projectName = django_filters.CharFilter(name='projectName', lookup_expr='icontains')
 	class Meta:
 		model = Projects
 

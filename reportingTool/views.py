@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import QueriesForm, dates
 from datetime import datetime
 from django_tables2 import RequestConfig, SingleTableView
+from chartit import DataPool, Chart
 from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
 from .filters import ProjectsFilter, SitesFilter, ProjExecFilter, SiteReportsFilter, QueryFilter
 from .tables import ProjectsTable, SitesTable, ProjExecTable, SiteReportsTable,QueriesTable
@@ -13,22 +14,59 @@ class FilteredSingleTableView(SingleTableView):
     table_pagination = {
         'per_page': 25
     }
+    col = None
 
     def get_table_data(self):
         data = super(FilteredSingleTableView, self).get_table_data()
         self.filter = self.filter_class(self.request.GET, queryset=data)
         return self.filter.qs
 
+    def get_chart(self):
+        if self.col is None:
+            return None 
+        xData = self.col[0]
+        yData  = self.col[1]
+        print xData, yData
+        ds = DataPool(
+            series=
+            [{'options': {
+                'source': self.filter.qs },
+                'terms' : [
+                xData,
+                yData ]}
+            ])
+        cht = Chart(
+            datasource = ds,
+            series_options =
+            [{ 'options': {
+                'type': 'line',
+                'stacking': False},
+                'terms':{
+                    xData: [
+                    yData ]
+                }}],
+            chart_options =
+            {'title': {
+                'text': 'HEy wahts up!!!'},
+            'xAxis': {
+                'title' : {
+                'text': 'Project Name'
+                }}})
+        return cht
+
     def get_context_data(self, **kwargs):
         context = super(FilteredSingleTableView, self).get_context_data(**kwargs)
         context['filter'] = self.filter
+        context['chart'] = self.get_chart()
         return context
 
 class ProjectFilterSingleTableView(FilteredSingleTableView):
     model = Projects
     table_class = ProjectsTable
     filter_class = ProjectsFilter
+    col = ['projectName', 'projectID']    
 
+   
 class SiteFilterSingleTableView(FilteredSingleTableView):
     model = Sites
     table_class = SitesTable
@@ -38,11 +76,13 @@ class ProjExecFilterSingleTableView(FilteredSingleTableView):
     model = Proj_Exec_TimeStmp
     table_class = ProjExecTable
     filter_class = ProjExecFilter
+    col = ['startTimeStmp', 'project_ID__projectName']
 
 class SiteReportFilterSingleTableView(FilteredSingleTableView):
     model = Site_Reports
     table_class = SiteReportsTable
     filter_class = SiteReportsFilter
+    col = ['site_ID__siteName', 'patientCount']
 
 class QueryFilterSingleTableView(FilteredSingleTableView):
     model = Queries
