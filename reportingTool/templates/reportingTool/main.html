@@ -1,4 +1,13 @@
 {% extends 'reportingTool/base.html' %}
+
+{% comment %}
+This template is used as main template which is rendered when we access the default page
+of the reportingTool app.
+
+This template contains iframes housing different pages content in order to show 
+result from different pages at single page.  
+{% endcomment %}
+
 {% block title %}
 <title>DashBoard | Reporting Tool</title>
 {% endblock %}
@@ -26,9 +35,12 @@
         <li>
             <a data-toggle='tab' href='#siteReports'>Site Reports</a>
         </li>
+        {% comment %}
+        A tab for the Queries table (Future Work)
         <li>
             <a data-toggle='tab' href='#miscellaneous'>Miscellaneous</a>
         </li>
+        {% endcomment %}
     </ul>
     <br>
     <div class='tab-content'>
@@ -44,37 +56,40 @@
         <div id='siteReports' class='tab-pane fade'>            
             <iframe src=" {% url 'reportingTool:siteReport' %}"></iframe>
         </div>
-        <div id='miscellaneous' class='tab-pane fade'>            
-            <div class='row'>
-                <div class='col'>
-                   <form action='' method='post' class='post-form'>
-                        {% csrf_token %}
-                        <fieldset>
-                            <span>Select a query from the Drop Down</span>
-                        </br>
-                        </br>
-                        <select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
-                            {% for txt,sql in queryObjects %}
-                            <option value="{{txt}}">
-                                {{sql}} 
-                            </option>
-                            {% endfor %}
-                        </select>
+        {% comment %}
+            We will probably end up using this in future to add Queries table.
+            <div id='miscellaneous' class='tab-pane fade'>            
+                <div class='row'>
+                    <div class='col'>
+                       <form action='' method='post' class='post-form'>
+                            {% csrf_token %}
+                            <fieldset>
+                                <span>Select a query from the Drop Down</span>
+                            </br>
+                            </br>
+                            <select name='query-name' id='query-id' class="form-control input-md" onchange="run()">
+                                {% for txt,sql in queryObjects %}
+                                <option value="{{txt}}">
+                                    {{sql}} 
+                                </option>
+                                {% endfor %}
+                            </select>
 
-                        <div class='row'>
-                            <div class='col-sm-4'></div>
-                            <div class='col-sm-4'></div>
-                            <div class='col-sm-4'></div>
-                        </div>
+                            <div class='row'>
+                                <div class='col-sm-4'></div>
+                                <div class='col-sm-4'></div>
+                                <div class='col-sm-4'></div>
+                            </div>
 
-                        </br>
-                        </br>
-                        </br>
-                        </fieldset>
-                    </form>
+                            </br>
+                            </br>
+                            </br>
+                            </fieldset>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endcomment %}
     </div>
 </div>
 

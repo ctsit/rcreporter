@@ -1,3 +1,10 @@
+"""
+This module contains the views for the reportingTool app.
+
+The view class is responsible for taking the web requests and returns a web response.
+The response is returned by rendering HTML content based on respective template.
+"""
+
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import QueriesForm
@@ -8,9 +15,20 @@ from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
 from .filters import ProjectsFilter, SitesFilter, ProjExecFilter, SiteReportsFilter, QueryFilter
 from .tables import ProjectsTable, SitesTable, ProjExecTable, SiteReportsTable,QueriesTable
 
+# Create your views here.
+
 class FilteredSingleTableView(SingleTableView):
+    """
+    A class based view.
+
+    This view is acting as a base class for all the models in the database. 
+    All the models are inheriting this base class to render themselves with 
+    the functionality of 'filtering', 'table', and 'charts'.
+    The main page/ dashboard is getting rendered using this view.
+    """
+
     filter_class = None
-    template_name = 'reportingTool/list.html'
+    template_name = 'reportingTool/listTables.html'
     table_pagination = {
         'per_page': 20
     }
@@ -24,6 +42,8 @@ class FilteredSingleTableView(SingleTableView):
 
     def get_chart(self):
         if self.pivot:
+            # This section of code use Pivot Charts.
+
             if self.col is None:
                 return None 
             xData = self.col[0]
@@ -55,6 +75,7 @@ class FilteredSingleTableView(SingleTableView):
                     }}})
             return cht
         else:
+            # This section of code use Charts.
             if self.col is None:
                 return None 
             xData = self.col[0]
@@ -94,29 +115,69 @@ class FilteredSingleTableView(SingleTableView):
         return context
 
 class ProjectFilterSingleTableView(FilteredSingleTableView):
+    """This class based view is used for Projects model.
+    
+    The col variable is used to provide the field values for charts.
+    The first column represents the field on the X axis 
+    and second column represents the field on the Y axis.
+    """
+    
     model = Projects
     table_class = ProjectsTable
     filter_class = ProjectsFilter
-    col = ['projectName', 'projectID']    
+    #col = ['projectName', 'projectID']    
 
    
 class SiteFilterSingleTableView(FilteredSingleTableView):
+    """This class based view is used for Sites model. """
+
     model = Sites
     table_class = SitesTable
     filter_class = SitesFilter
 
 class ProjExecFilterSingleTableView(FilteredSingleTableView):
+    """This class based view is used for Proj_Exec_TimeStmp model.
+    
+    The col variable is used to provide the field values for charts.
+    The first column represents the field on the X axis 
+    and second column represents the field on the Y axis.
+    """
+
     model = Proj_Exec_TimeStmp
     table_class = ProjExecTable
     filter_class = ProjExecFilter
-    col = ['startTimeStmp', 'project__projectName']
-    #pivot = True
+    #col = ['startTimeStmp', 'project__projectName']
 
 class SiteReportFilterSingleTableView(FilteredSingleTableView):
+    """This class based view is used for Site_Reports model.
+    
+    The col variable is used to provide the field values for charts.
+    The first column represents the field on the X axis 
+    and second column represents the field on the Y axis.
+    """
+
     model = Site_Reports
     table_class = SiteReportsTable
     filter_class = SiteReportsFilter
     col = ['site__siteName', 'patientCount']
+
+def index(request):
+    """
+    # Possibly this feature can be added in future
+    items = Queries.objects.all()
+    queryObjects = getItemsList(items, True)
+
+    """
+    context = {
+    'title': 'Dashboard',
+    #'queryObjects': queryObjects,
+    }
+    return render(request, 'reportingTool/main.html', context)
+
+"""This class is presently not been used.
+But as a part of future work we can have a Query class,
+which will be used add new queries related to tables in database.
+
 
 class QueryFilterSingleTableView(FilteredSingleTableView):
     model = Queries
@@ -137,36 +198,6 @@ def getItemsList(items, dropDown=False):
         for item in items:
             objects.append([str(field.value_to_string(item)) for field in item._meta.fields])
     return objects
-
-# Create your views here.
-def index(request):
-    items = Queries.objects.all()
-    queryObjects = getItemsList(items, True)
-    context = {
-    'title': 'Dashboard',
-    'queryObjects': queryObjects,
-    }
-    return render(request, 'reportingTool/main.html', context)
-
-def project(request):
-    projects = ProjectsTable(Projects.objects.all())
-    RequestConfig(request, paginate={'per_page':25}).configure(projects)
-    return render(request, 'reportingTool/project.html', {'projects':projects})
-
-def site(request):
-    sites = SitesTable(Sites.objects.all())
-    RequestConfig(request, paginate={'per_page':25}).configure(sites)
-    return render(request, 'reportingTool/site.html', {'sites':sites})
-
-def projExec(request):
-    projExecs = ProjExecTable(Proj_Exec_TimeStmp.objects.all())
-    RequestConfig(request, paginate={'per_page':25}).configure(projExecs)
-    return render(request, 'reportingTool/projExec.html', {'projExec':projExecs})
-
-def siteReport(request):
-    siteReports = SiteReportsTable(Site_Reports.objects.all())
-    RequestConfig(request, paginate={'per_page':25}).configure(siteReports)
-    return render(request, 'reportingTool/siteReport.html', {'siteReport':siteReports})
 
 def query_create(request):
     form = QueriesForm(request.POST or None)
@@ -193,16 +224,8 @@ def query_update(request, id):
             return render(request, 'reportingTool/error.html', {'form':form.errors})
     return render(request, 'reportingTool/queries.html', {'form':form})
 
-def list_queries(request):
-    items = Queries.objects.all()
-    objects = getItemsList(items)
-    context = {
-    'title':'Queries',
-    'objects':objects,
-    }
-    return render(request, 'reportingTool/details.html', context)
+"""
 
-def people(request):
-    query = QueriesTable(Queries.objects.all())
-    RequestConfig(request, paginate={'per_page':25}).configure(query)
-    return render(request, 'reportingTool/people.html', {'query':query, 'request':request})
+
+
+
