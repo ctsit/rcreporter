@@ -44,8 +44,8 @@ class ProjExecFilter(django_filters.FilterSet):
 	The DateTimeFromToRange filter will help in filtering data within a given range.
 	"""
 
-	startTimeStmp = django_filters.DateTimeFromToRangeFilter(name='startTimeStmp')
-	endTimeStmp = django_filters.DateTimeFromToRangeFilter(name='endTimeStmp')
+	startTimeStmp = django_filters.DateRangeFilter(name='startTimeStmp')
+	endTimeStmp = django_filters.DateRangeFilter(name='endTimeStmp')
 	class Meta:
 		model = Proj_Exec_TimeStmp
 

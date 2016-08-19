@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect
-from .forms import QueriesForm, dates
+from .forms import QueriesForm
 from datetime import datetime
 from django_tables2 import RequestConfig, SingleTableView
 from chartit import DataPool, Chart, PivotDataPool, PivotChart
