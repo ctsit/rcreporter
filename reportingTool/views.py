@@ -3,7 +3,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .forms import QueriesForm, dates
 from datetime import datetime
 from django_tables2 import RequestConfig, SingleTableView
-from chartit import DataPool, Chart
+from chartit import DataPool, Chart, PivotDataPool, PivotChart
 from .models import Projects, Sites, Proj_Exec_TimeStmp, Site_Reports, Queries
 from .filters import ProjectsFilter, SitesFilter, ProjExecFilter, SiteReportsFilter, QueryFilter
 from .tables import ProjectsTable, SitesTable, ProjExecTable, SiteReportsTable,QueriesTable
@@ -12,9 +12,10 @@ class FilteredSingleTableView(SingleTableView):
     filter_class = None
     template_name = 'reportingTool/list.html'
     table_pagination = {
-        'per_page': 25
+        'per_page': 20
     }
     col = None
+    pivot = False
 
     def get_table_data(self):
         data = super(FilteredSingleTableView, self).get_table_data()
@@ -22,37 +23,69 @@ class FilteredSingleTableView(SingleTableView):
         return self.filter.qs
 
     def get_chart(self):
-        if self.col is None:
-            return None 
-        xData = self.col[0]
-        yData  = self.col[1]
-        print xData, yData
-        ds = DataPool(
-            series=
-            [{'options': {
-                'source': self.filter.qs },
-                'terms' : [
-                xData,
-                yData ]}
-            ])
-        cht = Chart(
-            datasource = ds,
-            series_options =
-            [{ 'options': {
-                'type': 'line',
-                'stacking': False},
-                'terms':{
-                    xData: [
-                    yData ]
-                }}],
-            chart_options =
-            {'title': {
-                'text': 'HEy wahts up!!!'},
-            'xAxis': {
-                'title' : {
-                'text': 'Project Name'
-                }}})
-        return cht
+        if self.pivot:
+            if self.col is None:
+                return None 
+            xData = self.col[0]
+            yData  = self.col[1]
+            
+            ds = PivotDataPool(
+                series=
+                [{'options': {
+                    'source': self.filter.qs,
+                    'categories': xData},
+                    'terms' : {
+                    'tot_exec': ([yData])
+                    }
+                }])
+            cht = PivotChart(
+                datasource = ds,
+                series_options =
+                [{ 'options': {
+                    'type': 'column',
+                    'stacking': False},
+                    'terms': ['tot_exec']
+                    }],
+                chart_options =
+                {'title': {
+                    'text': 'CHARTS'},
+                'xAxis': {
+                    'title' : {
+                    'text': 'Project Name'
+                    }}})
+            return cht
+        else:
+            if self.col is None:
+                return None 
+            xData = self.col[0]
+            yData  = self.col[1]
+            print xData, yData
+            ds = DataPool(
+                series=
+                [{'options': {
+                    'source': self.filter.qs },
+                    'terms' : [
+                    xData,
+                    yData ]}
+                ])
+            cht = Chart(
+                datasource = ds,
+                series_options =
+                [{ 'options': {
+                    'type': 'column',
+                    'stacking': False},
+                    'terms':{
+                        xData: [
+                        yData ]
+                    }}],
+                chart_options =
+                {'title': {
+                    'text': 'CHARTS'},
+                'xAxis': {
+                    'title' : {
+                    'text': 'Project Name'
+                    }}})
+            return cht
 
     def get_context_data(self, **kwargs):
         context = super(FilteredSingleTableView, self).get_context_data(**kwargs)
@@ -76,13 +109,14 @@ class ProjExecFilterSingleTableView(FilteredSingleTableView):
     model = Proj_Exec_TimeStmp
     table_class = ProjExecTable
     filter_class = ProjExecFilter
-    col = ['startTimeStmp', 'project_ID__projectName']
+    col = ['startTimeStmp', 'project__projectName']
+    #pivot = True
 
 class SiteReportFilterSingleTableView(FilteredSingleTableView):
     model = Site_Reports
     table_class = SiteReportsTable
     filter_class = SiteReportsFilter
-    col = ['site_ID__siteName', 'patientCount']
+    col = ['site__siteName', 'patientCount']
 
 class QueryFilterSingleTableView(FilteredSingleTableView):
     model = Queries
@@ -108,30 +142,9 @@ def getItemsList(items, dropDown=False):
 def index(request):
     items = Queries.objects.all()
     queryObjects = getItemsList(items, True)
-
-    # projects = ProjectsTable(Projects.objects.all())
-    # #projects.paginate(page=request.GET.get('page', 1), per_page=25)
-    # RequestConfig(request, paginate={'per_page':25}).configure(projects)
-
-    # sites = SitesTable(Sites.objects.all())
-    # #sites.paginate(page=request.GET.get('page', 1), per_page=25)
-    # RequestConfig(request, paginate={'per_page':25}).configure(sites)
-
-    # projExecs = ProjExecTable(Proj_Exec_TimeStmp.objects.all())
-    # #projExecs.paginate(page=request.GET.get('page', 1), per_page=25)
-    # RequestConfig(request, paginate={'per_page':25}).configure(projExecs)
-
-    # siteReports = SiteReportsTable(Site_Reports.objects.all())
-    # #siteReports.paginate(page=request.GET.get('page', 1), per_page=25)
-    # RequestConfig(request, paginate={'per_page':25}).configure(siteReports)
-
     context = {
     'title': 'Dashboard',
     'queryObjects': queryObjects,
-    # 'projects': projects,
-    # 'sites': sites,
-    # 'projExecs': projExecs,
-    # 'siteReports': siteReports 
     }
     return render(request, 'reportingTool/main.html', context)
 

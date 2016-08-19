@@ -14,11 +14,13 @@ class ProjExecTable(tables.Table):
 		model = Proj_Exec_TimeStmp
 
 class SiteReportsTable(tables.Table):
+	projectName = tables.Column(accessor='site.project')
 	class Meta:
 		model = Site_Reports
 
 class QueriesTable(tables.Table):
 	class Meta:
 		model = Queries
-		# add class="paleblue" to <table> tag
+
+
 		
