@@ -1,3 +1,7 @@
+"""
+Contains the url for reaching out to pages for the reportingTool app.
+"""
+
 from django.conf.urls import url
 from django.views.generic import TemplateView
 
